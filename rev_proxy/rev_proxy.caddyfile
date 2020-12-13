@@ -1,0 +1,9 @@
+{
+	http_port	9898
+	admin		localhost:2019
+}
+
+localhost:8079
+
+reverse_proxy	/api1/*	127.0.0.1:8181
+reverse_proxy	/api2/*	127.0.0.1:8282

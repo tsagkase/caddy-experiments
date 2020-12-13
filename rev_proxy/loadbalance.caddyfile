@@ -1,0 +1,8 @@
+{
+	http_port	9897
+	admin		localhost:2018
+}
+
+localhost:8078
+
+reverse_proxy	/	127.0.0.1:8181 127.0.0.1:8282

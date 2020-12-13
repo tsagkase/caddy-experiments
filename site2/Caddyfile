@@ -1,0 +1,9 @@
+{
+	http_port	8282
+	auto_https	disable_redirects
+	admin	off
+}
+
+localhost:8282 {
+	respond "I am site2:8282"
+}

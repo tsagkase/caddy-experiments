@@ -1,0 +1,9 @@
+{
+	http_port	8181
+	auto_https	disable_redirects
+	admin	off
+}
+
+localhost:8181 {
+	respond "I am site1:8181"
+}
