@@ -52,7 +52,7 @@ stop_site2:
 	@ printf "Stopping SITE 2\n"
 	- test ! -s $(SITE2)/$(SITE_PID) || kill $$(cat $(SITE2)/$(SITE_PID))
 
-run_rproxy $(RPROXY)/$(LB_PID) $(RPROXY)/$(RP_PID): $(SITE1)/$(SITE_PID) $(SITE2)/$(SITE_PID) ./Makefile
+run_rproxy $(RPROXY)/$(LB_PID) $(RPROXY)/$(RP_PID): $(SITE1)/$(SITE_PID) $(SITE2)/$(SITE_PID) $(RPROXY)/logs ./Makefile
 	@ printf "Starting up reverse proxy\n"
 	cd $(RPROXY); caddy run --config $(CADDYFILE) --adapter caddyfile --pidfile $(RPROXY_PID) --watch > ./logs/$(RPROXY_LOG) 2>&1 &
 
@@ -67,13 +67,10 @@ $(SITE2)/$(SITE_PID): $(SITE2)/logs ./Makefile
 $(SITE1)/logs $(SITE2)/logs $(RPROXY)/logs:
 	- test -d $@ || mkdir -p $@
 
+# TODO: The following fails to stop the load balancer ...
 clean: stop_rp_proxy stop_lb_proxy
 	- test ! -d $(SITE1)/logs || rm -r $(SITE1)/logs
 	- test ! -d $(SITE2)/logs || rm -r $(SITE2)/logs
 	- test ! -d $(RPROXY)/logs || rm -r $(RPROXY)/logs
 	- test ! -d $(RPROXY)/logs || rm -r $(RPROXY)/logs
-	# - test ! -f $(SITE1)/logs/$(SITE1).log || rm $(SITE1)/logs/$(SITE1).log
-	# - test ! -f $(SITE2)/logs/$(SITE2).log || rm $(SITE2)/logs/$(SITE2).log
-	# - test ! -f $(RPROXY)/logs/$(RP_LOG) || rm $(RPROXY)/logs/$(RP_LOG)
-	# - test ! -f $(RPROXY)/logs/$(LB_LOG) || rm $(RPROXY)/logs/$(LB_LOG)
 
